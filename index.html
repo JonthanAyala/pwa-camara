@@ -185,7 +185,6 @@
       <h1>📸 Cámara PWA</h1>
 
       <div class="content-wrapper">
-        <!-- Sección de la Cámara (50%) -->
         <div class="camera-section">
           <button id="openCamera">Abrir Cámara</button>
 
@@ -194,11 +193,9 @@
             <button id="takePhoto">Tomar Foto</button>
           </div>
 
-          <!-- Canvas oculto para captura -->
           <canvas id="canvas" width="640" height="480"></canvas>
         </div>
 
-        <!-- Sección de Fotos Guardadas (50%) -->
         <div class="photos-section">
           <div class="photos-header">📷 Fotos Guardadas</div>
           <div id="photosContainer">
@@ -210,10 +207,8 @@
       </div>
     </div>
 
-    <!-- Script principal -->
     <script src="app.js"></script>
 
-    <!-- Registro del Service Worker -->
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
