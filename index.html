@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cámara PWA</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .main-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 15px;
+        background: #333;
+        color: white;
+        margin: 0;
+      }
+
+      .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 60px);
+        padding: 5px;
+        gap: 5px;
+      }
+
+      .camera-section {
+        flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border-radius: 8px;
+        padding: 10px;
+        overflow: hidden;
+      }
+
+      .photos-section {
+        flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border-radius: 8px;
+        padding: 10px;
+        overflow: hidden;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin: 5px 0;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #openCamera {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      #openCamera:hover:not(:disabled) {
+        background-color: #45a049;
+      }
+
+      #openCamera:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      #cameraContainer {
+        display: none;
+        flex-direction: column;
+        margin-top: 10px;
+        flex: 1;
+      }
+
+      #video {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        background-color: #000;
+      }
+
+      #takePhoto {
+        background-color: #2196f3;
+        color: white;
+        margin-top: 10px;
+      }
+
+      #takePhoto:hover {
+        background-color: #0b7dda;
+      }
+
+      #canvas {
+        display: none;
+      }
+
+      .photos-header {
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #photosContainer {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 2px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #fafafa;
+      }
+
+      #photosContainer::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      #photosContainer::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 5px;
+      }
+
+      #photosContainer::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+      }
+
+      #photosContainer::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .photo-item {
+        margin-bottom: 15px;
+        border: 2px solid #4caf50;
+        border-radius: 5px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .photo-item img {
+        width: 100%;
+        display: block;
+      }
+
+      .photo-info {
+        padding: 8px;
+        background: #f5f5f5;
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+      }
+
+      .empty-message {
+        text-align: center;
+        color: #999;
+        padding: 20px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>📸 Cámara PWA</h1>
+
+      <div class="content-wrapper">
+        <!-- Sección de la Cámara (50%) -->
+        <div class="camera-section">
+          <button id="openCamera">Abrir Cámara</button>
+
+          <div id="cameraContainer">
+            <video id="video" autoplay playsinline></video>
+            <button id="takePhoto">Tomar Foto</button>
+          </div>
+
+          <!-- Canvas oculto para captura -->
+          <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+
+        <!-- Sección de Fotos Guardadas (50%) -->
+        <div class="photos-section">
+          <div class="photos-header">📷 Fotos Guardadas</div>
+          <div id="photosContainer">
+            <div class="empty-message">
+              No hay fotos aún. ¡Toma tu primera foto!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="app.js"></script>
+
+    <!-- Registro del Service Worker -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js").then(
+            function (registration) {
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope
+              );
+            },
+            function (err) {
+              console.log("ServiceWorker registration failed: ", err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

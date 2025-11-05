@@ -1,0 +1,22 @@
+{
+    "name": "Cámara PWA",
+    "short_name": "CamaraPWA",
+    "description": "Aplicación web progresiva para capturar fotos con la cámara del dispositivo",
+    "start_url": "https://jonthanayala.github.io/pwa-camara/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "description": "Una aplicación web progresiva que permite a los usuarios capturar fotos utilizando la cámara de su dispositivo, incluso sin conexión a internet XD.",
+    "icons": [
+        {
+            "src": "192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
