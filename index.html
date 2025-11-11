@@ -50,6 +50,7 @@
         border-radius: 8px;
         padding: 10px;
         overflow: hidden;
+        min-height: 0;
       }
 
       .photos-section {
@@ -92,19 +93,34 @@
         flex-direction: column;
         margin-top: 10px;
         flex: 1;
+        min-height: 0;
       }
 
       #video {
         width: 100%;
         height: auto;
+        max-height: 100%;
+        object-fit: contain;
         border-radius: 5px;
         background-color: #000;
+        flex-shrink: 1;
+      }
+
+      .camera-controls {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+        flex-shrink: 0;
+      }
+
+      .camera-controls button {
+        flex: 1;
+        margin: 0;
       }
 
       #takePhoto {
         background-color: #2196f3;
         color: white;
-        margin-top: 10px;
       }
 
       #takePhoto:hover {
@@ -199,14 +215,9 @@
 
           <div id="cameraContainer">
             <video id="video" autoplay playsinline></video>
-            <div style="display: flex; gap: 5px">
-              <button id="takePhoto" style="flex: 1">Tomar Foto</button>
-              <button
-                id="flipCamera"
-                style="flex: 1; background-color: #ff9800"
-              >
-                🔄 Voltear
-              </button>
+            <div class="camera-controls">
+              <button id="takePhoto">📷 Tomar Foto</button>
+              <button id="flipCamera">🔄 Voltear</button>
             </div>
           </div>
 
