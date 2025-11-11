@@ -44,6 +44,10 @@ async function openCamera() {
     cameraContainer.style.display = "flex";
     openCameraBtn.textContent = "Cámara Abierta";
     openCameraBtn.disabled = true;
+    
+    // Mostrar los botones de tomar foto y voltear
+    takePhotoBtn.classList.add("active");
+    flipCameraBtn.classList.add("active");
 
     console.log("Cámara abierta exitosamente con modo:", currentFacingMode);
   } catch (error) {
@@ -119,6 +123,10 @@ function closeCamera() {
     cameraContainer.style.display = "none";
     openCameraBtn.textContent = "Abrir Cámara";
     openCameraBtn.disabled = false;
+    
+    // Ocultar los botones de tomar foto y voltear
+    takePhotoBtn.classList.remove("active");
+    flipCameraBtn.classList.remove("active");
 
     console.log("Cámara cerrada");
   }

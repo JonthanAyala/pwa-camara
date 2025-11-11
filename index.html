@@ -74,6 +74,13 @@
         transition: background-color 0.3s;
       }
 
+      .camera-controls-top {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+
       #openCamera {
         background-color: #4caf50;
         color: white;
@@ -86,6 +93,34 @@
       #openCamera:disabled {
         background-color: #cccccc;
         cursor: not-allowed;
+      }
+
+      #takePhoto {
+        background-color: #2196f3;
+        color: white;
+        display: none;
+      }
+
+      #takePhoto:hover {
+        background-color: #0b7dda;
+      }
+
+      #takePhoto.active {
+        display: block;
+      }
+
+      #flipCamera {
+        background-color: #ff9800;
+        color: white;
+        display: none;
+      }
+
+      #flipCamera:hover {
+        background-color: #e68900;
+      }
+
+      #flipCamera.active {
+        display: block;
       }
 
       #cameraContainer {
@@ -104,36 +139,6 @@
         border-radius: 5px;
         background-color: #000;
         flex-shrink: 1;
-      }
-
-      .camera-controls {
-        display: flex;
-        gap: 5px;
-        margin-top: 10px;
-        flex-shrink: 0;
-      }
-
-      .camera-controls button {
-        flex: 1;
-        margin: 0;
-      }
-
-      #takePhoto {
-        background-color: #2196f3;
-        color: white;
-      }
-
-      #takePhoto:hover {
-        background-color: #0b7dda;
-      }
-
-      #flipCamera {
-        background-color: #ff9800;
-        color: white;
-      }
-
-      #flipCamera:hover {
-        background-color: #e68900;
       }
 
       #canvas {
@@ -211,14 +216,14 @@
 
       <div class="content-wrapper">
         <div class="camera-section">
-          <button id="openCamera">Abrir Cámara</button>
+          <div class="camera-controls-top">
+            <button id="openCamera">Abrir Cámara</button>
+            <button id="takePhoto">📷 Tomar Foto</button>
+            <button id="flipCamera">🔄 Voltear</button>
+          </div>
 
           <div id="cameraContainer">
             <video id="video" autoplay playsinline></video>
-            <div class="camera-controls">
-              <button id="takePhoto">📷 Tomar Foto</button>
-              <button id="flipCamera">🔄 Voltear</button>
-            </div>
           </div>
 
           <canvas id="canvas" width="640" height="480"></canvas>
