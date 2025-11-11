@@ -2,18 +2,38 @@ const openCameraBtn = document.getElementById("openCamera");
 const cameraContainer = document.getElementById("cameraContainer");
 const video = document.getElementById("video");
 const takePhotoBtn = document.getElementById("takePhoto");
+const flipCameraBtn = document.getElementById("flipCamera");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const photosContainer = document.getElementById("photosContainer");
 
 let stream = null;
 let photos = [];
+let currentFacingMode = "environment"; // 'environment' para trasera, 'user' para frontal
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/pwa-camara/sw.js").then(
+      function (registration) {
+        console.log(
+          "ServiceWorker registration successful with scope: ",
+          registration.scope
+        );
+      },
+      function (err) {
+        console.log("ServiceWorker registration failed: ", err);
+      }
+    );
+  });
+}
+
+
 
 async function openCamera() {
   try {
     const constraints = {
       video: {
-        facingMode: { ideal: "environment" },
+        facingMode: { ideal: currentFacingMode },
         width: { ideal: 320 },
         height: { ideal: 240 },
       },
@@ -25,7 +45,7 @@ async function openCamera() {
     openCameraBtn.textContent = "Cámara Abierta";
     openCameraBtn.disabled = true;
 
-    console.log("Cámara abierta exitosamente");
+    console.log("Cámara abierta exitosamente con modo:", currentFacingMode);
   } catch (error) {
     console.error("Error al acceder a la cámara:", error);
     alert("No se pudo acceder a la cámara. Asegúrate de dar permisos.");
@@ -104,8 +124,49 @@ function closeCamera() {
   }
 }
 
+async function flipCamera() {
+  if (!stream) {
+    alert("Primero debes abrir la cámara");
+    return;
+  }
+
+  // Cambiar el modo de la cámara
+  currentFacingMode =
+    currentFacingMode === "environment" ? "user" : "environment";
+
+  // Cerrar la cámara actual
+  stream.getTracks().forEach((track) => track.stop());
+
+  // Abrir la cámara con el nuevo modo
+  try {
+    const constraints = {
+      video: {
+        facingMode: { ideal: currentFacingMode },
+        width: { ideal: 320 },
+        height: { ideal: 240 },
+      },
+    };
+
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = stream;
+
+    console.log("Cámara volteada a modo:", currentFacingMode);
+  } catch (error) {
+    console.error("Error al voltear la cámara:", error);
+    alert(
+      "No se pudo cambiar la cámara. Puede que tu dispositivo no tenga múltiples cámaras."
+    );
+
+    // Intentar volver a la cámara anterior
+    currentFacingMode =
+      currentFacingMode === "environment" ? "user" : "environment";
+    openCamera();
+  }
+}
+
 openCameraBtn.addEventListener("click", openCamera);
 takePhotoBtn.addEventListener("click", takePhoto);
+flipCameraBtn.addEventListener("click", flipCamera);
 
 window.addEventListener("beforeunload", () => {
   closeCamera();

@@ -111,6 +111,15 @@
         background-color: #0b7dda;
       }
 
+      #flipCamera {
+        background-color: #ff9800;
+        color: white;
+      }
+
+      #flipCamera:hover {
+        background-color: #e68900;
+      }
+
       #canvas {
         display: none;
       }
@@ -190,7 +199,15 @@
 
           <div id="cameraContainer">
             <video id="video" autoplay playsinline></video>
-            <button id="takePhoto">Tomar Foto</button>
+            <div style="display: flex; gap: 5px">
+              <button id="takePhoto" style="flex: 1">Tomar Foto</button>
+              <button
+                id="flipCamera"
+                style="flex: 1; background-color: #ff9800"
+              >
+                🔄 Voltear
+              </button>
+            </div>
           </div>
 
           <canvas id="canvas" width="640" height="480"></canvas>
@@ -208,23 +225,5 @@
     </div>
 
     <script src="app.js"></script>
-
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("/sw.js").then(
-            function (registration) {
-              console.log(
-                "ServiceWorker registration successful with scope: ",
-                registration.scope
-              );
-            },
-            function (err) {
-              console.log("ServiceWorker registration failed: ", err);
-            }
-          );
-        });
-      }
-    </script>
   </body>
 </html>
